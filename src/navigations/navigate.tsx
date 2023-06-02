@@ -5,27 +5,34 @@ import HomeScreen from '../screens/home';
 
 import OpenListScreen from '../screens/openList';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-export type RootDrawerParamList = {
-  Home: undefined;
-};
+import {RootDrawerParamList, RootStackParamList} from '../models/navigation';
 
-export type RootStackParamList = {
-  Navigate: undefined;
-  openList: {itemId: string};
-};
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function NativeNavigate() {
   return (
-    <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
+    <Stack.Navigator
+      screenOptions={{
+        animation: 'slide_from_right',
+        headerShadowVisible: true,
+        headerStyle: {backgroundColor: '#FFE2E2'},
+      }}>
       <Stack.Screen
         name="Navigate"
         component={Navigate}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+        }}
       />
-      <Stack.Screen name="openList" component={OpenListScreen} />
+      <Stack.Screen
+        name="openList"
+        component={OpenListScreen}
+        options={({route}) => ({
+          title: route.params.screenTitle,
+        })}
+      />
     </Stack.Navigator>
   );
 }
@@ -39,6 +46,7 @@ function Navigate() {
         component={HomeScreen}
         options={{title: 'Home'}}
       />
+      {/* <Drawer.Screen name="yourList" component={} /> */}
     </Drawer.Navigator>
   );
 }
