@@ -6,6 +6,7 @@ import HomeScreen from '../screens/home';
 import OpenListScreen from '../screens/openList';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootDrawerParamList, RootStackParamList} from '../models/navigation';
+import {colors} from '../utils/color';
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
@@ -17,7 +18,7 @@ export default function NativeNavigate() {
       screenOptions={{
         animation: 'slide_from_right',
         headerShadowVisible: true,
-        headerStyle: {backgroundColor: '#FFE2E2'},
+        headerStyle: {backgroundColor: colors.primary},
       }}>
       <Stack.Screen
         name="Navigate"
@@ -40,7 +41,7 @@ export default function NativeNavigate() {
 function Navigate() {
   return (
     <Drawer.Navigator
-      screenOptions={{headerStyle: {backgroundColor: '#FFE2E2'}}}>
+      screenOptions={{headerStyle: {backgroundColor: colors.primary}}}>
       <Drawer.Screen
         name="Home"
         component={HomeScreen}

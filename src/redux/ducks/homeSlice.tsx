@@ -1,10 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {Lists} from '../../utils/cosntant';
+import {TransactionType} from '../../models/itemList';
 
-const VidhiList = [{}];
+const initialState: TransactionType = [];
 
 const listCreateSlice = createSlice({
-  name: 'listCreate',
-  initialState: VidhiList,
-  reducers: {},
+  name: 'list',
+  initialState,
+  reducers: {
+    addList: (state, action) => {
+      state.push(action.payload);
+    },
+  },
 });
+
+const {actions, reducer} = listCreateSlice;
+export const {addList} = actions;
+export default reducer;

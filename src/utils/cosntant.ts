@@ -7,7 +7,7 @@ export const Lists: ItemData[] = [
     vidhi_things: {
       mindhol: 'મીંઢોળ',
       manek: 'માણેક સ્તંભ',
-      vashaSoti: 'વાસ સોટી',
+      vashaSoti: 'વાંસની સોટી',
       shriFal: 'શ્રી ફલ',
       lalCloth: 'લાલ પીસ',
       ghau: 'ઘઉં',
