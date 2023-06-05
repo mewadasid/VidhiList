@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000000',
     margin: 10,
+    fontWeight: '800',
   },
   ListStyle: {
     flexDirection: 'row',
@@ -38,7 +39,6 @@ export const styles = StyleSheet.create({
   ListContainer: {
     marginLeft: 16,
     marginRight: 16,
-    marginTop: 10,
   },
   ListAlignment: {
     display: 'flex',
@@ -57,11 +57,12 @@ export const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: '#fff',
     width: '100%',
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderColor: '#8785A2',
+    marginTop: 15,
+    borderBottomWidth: 2,
   },
   AddListButton: {
+    marginTop: 15,
+    marginBottom: 15,
     width: 200,
     borderRadius: 50,
     paddingVertical: 15,

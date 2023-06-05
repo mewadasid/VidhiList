@@ -41,13 +41,20 @@ export default function NativeNavigate() {
 function Navigate() {
   return (
     <Drawer.Navigator
-      screenOptions={{headerStyle: {backgroundColor: colors.primary}}}>
+      screenOptions={{
+        headerStyle: {backgroundColor: colors.primary},
+        drawerLabelStyle: {fontSize: 16, margin: 10},
+      }}>
       <Drawer.Screen
         name="Home"
         component={HomeScreen}
         options={{title: 'Home'}}
       />
-      {/* <Drawer.Screen name="yourList" component={} /> */}
+      <Drawer.Screen
+        name="yourList"
+        component={HomeScreen}
+        options={{title: 'Your List'}}
+      />
     </Drawer.Navigator>
   );
 }

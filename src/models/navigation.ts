@@ -1,5 +1,6 @@
 export type RootDrawerParamList = {
   Home: undefined;
+  yourList: undefined;
 };
 
 export type RootStackParamList = {

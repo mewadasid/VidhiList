@@ -3,7 +3,7 @@ import {ItemData} from '../models/itemList';
 export const Lists: ItemData[] = [
   {
     id: 1,
-    name: 'Mandap',
+    name: 'મંડપ',
     vidhi_things: {
       mindhol: 'મીંઢોળ',
       manek: 'માણેક સ્તંભ',
@@ -15,7 +15,7 @@ export const Lists: ItemData[] = [
   },
   {
     id: 2,
-    name: 'Lagna',
+    name: 'લગ્ન',
     vidhi_things: {
       mindhol: 'મીંઢોળ',
       manek: 'માણેક સ્તંભ',

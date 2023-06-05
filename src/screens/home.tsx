@@ -36,7 +36,7 @@ export default function HomeScreen({
                   <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() =>
-                      navigation.navigate('openList', {
+                      navigation.push('openList', {
                         itemId: listName.item.id,
                         screenTitle: listName.item.name,
                       })
