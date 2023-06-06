@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Pressable, Text, ToastAndroid, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as yup from 'yup';
 
@@ -18,16 +18,12 @@ import {Controller, useForm} from 'react-hook-form';
 import {ItemData} from '../models/itemList';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-// const filteredItem = (itemId: string | number) => {
-//   return
-// };
 export default function OpenListScreen({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, 'openList'>) {
   const dispatch = useDispatch();
-  let {itemId} = route.params;
-  console.log(Lists, '>>OPENKJNSDkN D');
+  let {itemId, screenTitle} = route.params;
   const clone = JSON.parse(JSON.stringify(Lists));
 
   const filteredItem = clone.filter((data: any) => data.id === itemId);
@@ -46,7 +42,18 @@ export default function OpenListScreen({
 
   const validationSchemaList = yup.object().shape(validationObject());
   const handleAddPress = (data: any) => {
-    dispatch(addList(data));
+    let dataObj: {[key: string]: any} = {};
+    for (const key in data) {
+      if (data[key] !== undefined) {
+        dataObj.vidhi_things = {...dataObj.vidhi_things, [key]: data[key]};
+      }
+    }
+
+    dataObj.listId = Date.now().toString();
+    const date = new Date();
+    dataObj.name = screenTitle + ' યાદી ' + date.toLocaleDateString();
+    console.log(dataObj);
+    dispatch(addList(dataObj));
     navigation.navigate('Navigate');
   };
 
@@ -56,14 +63,18 @@ export default function OpenListScreen({
   });
 
   const removeItem = (itemName: string) => {
+    ToastAndroid.show('Item removed', ToastAndroid.SHORT);
     const removed = Object.entries(list[0].vidhi_things).filter(
       item => !item.includes(itemName),
     );
+
+    console.log(removed, 'List');
     const removedObj = Object.fromEntries(removed);
     const wholedata = [...list];
 
     wholedata[0].vidhi_things = removedObj;
 
+    console.log(wholedata, '>>>>');
     setList(wholedata);
   };
 
@@ -80,7 +91,7 @@ export default function OpenListScreen({
                   control={control}
                   name={vidhiItem}
                   render={({
-                    field: {onBlur, onChange},
+                    field: {onBlur, onChange, value},
                     fieldState: {error},
                   }) => (
                     <>
@@ -112,7 +123,8 @@ export default function OpenListScreen({
                             placeholderTextColor="rgba(0,0,0,0.3)"
                             placeholder="Enter a value"
                             onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
+                            value={value}
+                            onChangeText={data => onChange(data)}
                           />
                         </View>
                         <View style={{width: '10%'}}>

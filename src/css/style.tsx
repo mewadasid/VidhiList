@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   ListBootom: {
@@ -80,5 +80,18 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 2,
     color: '#000',
+  },
+  DataTableWrap: {
+    width: Dimensions.get('screen').width / 1.1,
+    borderRadius: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 8,
+    marginBottom: 8,
+    backgroundColor: '#fff',
+    elevation: 5,
+    shadowColor: 'rgba(0,0,0,0.7)',
+    shadowOpacity: 0.34,
+    shadowRadius: 1.4,
   },
 });

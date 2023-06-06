@@ -1,15 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
-import {Lists} from '../utils/cosntant';
-import {styles} from '../css/style';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootDrawerParamList, RootStackParamList} from '../models/navigation';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Lists} from '../utils/cosntant';
+import {View} from 'react-native';
+import CustomFlatlist from '../components/flatList';
 
 export default function HomeScreen({
   navigation,
@@ -20,7 +19,12 @@ export default function HomeScreen({
   return (
     <SafeAreaView>
       <View style={{marginTop: 5}}>
-        <FlatList
+        <CustomFlatlist
+          data={Lists}
+          navigation={navigation}
+          routeName="openList"
+        />
+        {/* <FlatList
           data={Lists}
           renderItem={listName => {
             return (
@@ -47,7 +51,7 @@ export default function HomeScreen({
               </View>
             );
           }}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

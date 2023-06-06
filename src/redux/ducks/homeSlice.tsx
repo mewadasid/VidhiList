@@ -1,13 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {TransactionType} from '../../models/itemList';
+import {ItemData} from '../../models/itemList';
 
-const initialState: TransactionType = [];
+const initialState: ItemData[] = [];
 
 const listCreateSlice = createSlice({
   name: 'list',
   initialState,
   reducers: {
     addList: (state, action) => {
+      console.log(action.payload, 'ACTION');
       state.push(action.payload);
     },
   },
