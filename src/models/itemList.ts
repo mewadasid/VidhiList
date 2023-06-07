@@ -1,6 +1,6 @@
 //Constant List type
 export type ItemData = {
-  listId: string | number;
+  // listId: string | number;
   [key: string]: any;
   id: number;
   name: string;

@@ -15,10 +15,34 @@ export default function ViewScreen({
   const {listId} = route.params;
 
   const myList = useSelector((state: RootState) =>
-    state.list.find(singleList => singleList.listId === listId),
+    Object.values(state.list).find(singleList => singleList.listId === listId),
   );
 
-  console.log('MYLIST', myList);
+  const html = `<html>
+  <body>
+  <Table>
+  <thead>
+  <tr>
+  <th>THINGS</th>
+  <th>Quant</th>
+  </tr>
+  </thead>
+  <tbody>
+  `;
+  if (myList) {
+    for (let key in myList.vidhi_things) {
+      `<tr>
+      <td>${key}</td>
+      <td>${myList.vidhi_things[key]}</td>
+      </tr>`;
+    }
+  }
+  `
+  </tbody>
+  </Table>
+  </body>
+</html>`;
+
   return (
     <ScrollView>
       <DataTable style={styles.DataTableWrap}>
@@ -58,6 +82,8 @@ export default function ViewScreen({
             );
           })}
       </DataTable>
+
+      <Text>{html}</Text>
     </ScrollView>
   );
 }

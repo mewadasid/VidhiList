@@ -33,6 +33,7 @@ export default function OpenListScreen({
     let abc: {
       [key: string]: yup.StringSchema<string, yup.AnyObject, undefined, ''>;
     } = {};
+
     Object.values(list[0].vidhi_things).map((i: string) => {
       abc[i] = yup.string().required('આ ક્ષેત્ર ભરવું આવશ્યક છે.');
     });
@@ -51,8 +52,15 @@ export default function OpenListScreen({
 
     dataObj.listId = Date.now().toString();
     const date = new Date();
-    dataObj.name = screenTitle + ' યાદી ' + date.toLocaleDateString();
-    console.log(dataObj);
+    dataObj.name =
+      screenTitle +
+      ' યાદી ' +
+      date.toLocaleDateString() +
+      ' ' +
+      date.getHours() +
+      ':' +
+      date.getMinutes();
+
     dispatch(addList(dataObj));
     navigation.navigate('Navigate');
   };
@@ -68,13 +76,11 @@ export default function OpenListScreen({
       item => !item.includes(itemName),
     );
 
-    console.log(removed, 'List');
     const removedObj = Object.fromEntries(removed);
     const wholedata = [...list];
 
     wholedata[0].vidhi_things = removedObj;
 
-    console.log(wholedata, '>>>>');
     setList(wholedata);
   };
 

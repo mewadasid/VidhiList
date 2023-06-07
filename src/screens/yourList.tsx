@@ -18,7 +18,9 @@ export default function ListShow({
   DrawerScreenProps<RootDrawerParamList>,
   NativeStackScreenProps<RootStackParamList>
 >) {
-  const listSlice = useSelector((state: RootState) => state.list);
+  const listSlice = useSelector((state: RootState) =>
+    Object.values(state.list),
+  );
   console.log(listSlice);
   return (
     <SafeAreaView>

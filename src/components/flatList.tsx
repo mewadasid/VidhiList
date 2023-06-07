@@ -22,6 +22,7 @@ type DataTypeProp = {
       undefined
     >
   >;
+
   routeName: keyof RootStackParamList;
 };
 
@@ -33,40 +34,44 @@ export default function CustomFlatlist({
   return (
     <FlatList
       data={data}
+      keyExtractor={(item, index) => item.name + index}
       renderItem={listName => {
         return (
-          <View>
-            <View
-              style={[
-                styles.backColor,
-                styles.elevations,
-                styles.ListBootom,
-                styles.ListStyle,
-              ]}>
-              <Text style={[styles.ListDisplay]}>{listName.item.name}</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  if (routeName === 'openList') {
-                    navigation.push(routeName, {
-                      itemId: listName.item.id,
-                      screenTitle: listName.item.name,
-                    });
-                  }
-                  if (routeName === 'view') {
-                    navigation.push(routeName, {
-                      listId: listName.item.listId,
-                      screenTitle: listName.item.name,
-                    });
-                  }
-                }}>
-                <Icon style={styles.iconButton} name="eye" size={25} />
-              </TouchableOpacity>
-            </View>
-          </View>
+          <>
+            {!listName.item.version && (
+              <View>
+                <View
+                  style={[
+                    styles.backColor,
+                    styles.elevations,
+                    styles.ListBootom,
+                    styles.ListStyle,
+                  ]}>
+                  <Text style={[styles.ListDisplay]}>{listName.item.name}</Text>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      if (routeName === 'openList') {
+                        navigation.push(routeName, {
+                          itemId: listName.item.id,
+                          screenTitle: listName.item.name,
+                        });
+                      }
+                      if (routeName === 'view') {
+                        navigation.push(routeName, {
+                          listId: listName.item.listId,
+                          screenTitle: listName.item.name,
+                        });
+                      }
+                    }}>
+                    <Icon style={styles.iconButton} name="eye" size={25} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </>
         );
       }}
-      keyExtractor={({item}) => item.id}
     />
   );
 }

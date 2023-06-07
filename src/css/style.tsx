@@ -94,4 +94,9 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 1.4,
   },
+  Loader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
 });
