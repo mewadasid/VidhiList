@@ -21,6 +21,20 @@ export const Lists: ItemData[] = [
       abil: 'અબીલ ',
       gulal: 'ગુલાલ',
       kanku: 'કંકુ',
+      nadachhadi: 'નાડાછડી',
+      sutardadi: 'સુતર દોરી',
+      agarbati: 'અગરબત્તી',
+      bakas: 'બાકસ',
+      bajot: 'બાજોટ',
+      patalo: 'પાટલો',
+      thali: 'થાળી',
+      vataka: 'વાટકા',
+      chamchi: 'ચમચી',
+      trambanokalash: 'તાંબા નો કલશ',
+      fulhar: 'ફુલહાર',
+      fulchhutta: 'ફુલછુટા',
+      asopalavtoran: 'આસોપાલવ તોરણ',
+      nagarvelpan: 'નાગરવેલ પાન',
     },
   },
   {
@@ -36,3 +50,12 @@ export const Lists: ItemData[] = [
     },
   },
 ];
+
+export const vidhiThingsUseAll = {
+  panchamrut: 'પંચામૃત',
+  pani: 'પાણી',
+  aasan: 'આસન',
+  nepkin: 'નેપકિન',
+  chhedachhedi: 'છેડાછેડી',
+  ganeshnimatali: 'ગણેશની માટલી',
+};

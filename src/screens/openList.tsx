@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Pressable, Text, ToastAndroid, View} from 'react-native';
+import {Text, ToastAndroid, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as yup from 'yup';
 
@@ -17,6 +17,7 @@ import {addList} from '../redux/ducks/homeSlice';
 import {Controller, useForm} from 'react-hook-form';
 import {ItemData} from '../models/itemList';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button} from 'react-native-paper';
 
 export default function OpenListScreen({
   navigation,
@@ -136,6 +137,7 @@ export default function OpenListScreen({
                         <View style={{width: '10%'}}>
                           <Icon
                             name="trash"
+                            style={{color: 'rgb(113, 201, 206)'}}
                             size={25}
                             onPress={() => removeItem(vidhiItem)}
                           />
@@ -146,7 +148,9 @@ export default function OpenListScreen({
                           style={{
                             marginBottom: 5,
                           }}>
-                          <Text style={{fontSize: 18}}>{error?.message}</Text>
+                          <Text style={{fontSize: 18, color: 'rgb(255,0,0)'}}>
+                            {error?.message}
+                          </Text>
                         </View>
                       )}
                     </>
@@ -156,20 +160,30 @@ export default function OpenListScreen({
             </View>
           )}
           ListFooterComponent={
-            <View
-              style={{
-                borderRadius: 50,
-                overflow: 'hidden',
-                alignSelf: 'center',
-              }}>
-              <Pressable
-                onPress={handleSubmit(handleAddPress)}
-                android_ripple={{
-                  color: 'rgba(0,0,0,0.2)',
-                }}
-                style={styles.AddListButton}>
-                <Text style={styles.AddListText}>યાદી ઉમેરો</Text>
-              </Pressable>
+            <View>
+              <Button
+                buttonColor="#F6BA6F"
+                contentStyle={styles.AddListButton}
+                style={[
+                  styles.AddListButton,
+                  {
+                    marginBottom: 20,
+                    marginTop: 20,
+                    width: 200,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                  },
+                ]}
+                mode="contained"
+                onPress={handleSubmit(handleAddPress)}>
+                <Text
+                  style={[
+                    styles.AddListText,
+                    {lineHeight: 24, textAlign: 'center'},
+                  ]}>
+                  યાદી ઉમેરો
+                </Text>
+              </Button>
             </View>
           }
         />

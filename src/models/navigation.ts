@@ -1,6 +1,9 @@
+import {ItemData} from './itemList';
+
 export type RootDrawerParamList = {
   Home: undefined;
   yourList: undefined | {itemId: string | number};
+  GeneratePDF: {myList: ItemData | undefined};
 };
 
 export type RootStackParamList = {

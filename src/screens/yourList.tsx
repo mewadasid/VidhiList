@@ -25,7 +25,7 @@ export default function ListShow({
   return (
     <SafeAreaView>
       <View style={{marginTop: 5}}>
-        {listSlice.length > 0 ? (
+        {listSlice.length > 1 ? (
           <CustomFlatlist
             data={listSlice}
             navigation={navigation}
@@ -39,7 +39,7 @@ export default function ListShow({
               marginBottom: '50%',
               marginTop: '50%',
             }}>
-            <Text style={{fontSize: 20, color: 'rgba(0,0,0,0.4)'}}>
+            <Text style={{fontSize: 20, color: 'rgba(0,0,0,0.5)'}}>
               કોઈપણ સૂચિ ઉમેરવામાં આવી નથી
             </Text>
           </View>
