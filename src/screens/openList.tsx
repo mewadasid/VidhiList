@@ -1,23 +1,30 @@
 /* eslint-disable react-native/no-inline-styles */
+
+//React Native
 import React, {useState} from 'react';
-import {Text, ToastAndroid, View} from 'react-native';
+import {FlatList, Text, TextInput, ToastAndroid, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import * as yup from 'yup';
-
-import {yupResolver} from '@hookform/resolvers/yup';
-import {Lists} from '../utils/cosntant';
-import {TextInput} from 'react-native';
-
-import {FlatList} from 'react-native';
-import {styles} from '../css/style';
-import {RootStackParamList} from '../models/navigation';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Controller, useForm} from 'react-hook-form';
+import {Button} from 'react-native-paper';
+
+//Yup Validator
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
+
+import {Lists} from '../utils/cosntant';
+
+import {styles} from '../css/style';
+
+//Model types
+import {RootStackParamList} from '../models/navigation';
+import {ItemData} from '../models/itemList';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+//Redux State
 import {useDispatch} from 'react-redux';
 import {addList} from '../redux/ducks/homeSlice';
-import {Controller, useForm} from 'react-hook-form';
-import {ItemData} from '../models/itemList';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {Button} from 'react-native-paper';
 
 export default function OpenListScreen({
   navigation,

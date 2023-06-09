@@ -12,10 +12,9 @@ import {vidhiThingsUseAll} from '../utils/cosntant';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-
 import ActivityLoader from '../components/activityLoader';
-// Import RNFetchBlob for the file download
 
+// Import RNFetchBlob for the file download
 import RNFetchBlob from 'rn-fetch-blob';
 
 export default function ViewScreen({
@@ -186,15 +185,14 @@ export default function ViewScreen({
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('Permission granted');
-        let name = screenTitle.split(' ', 1);
-        console.log(name);
-        let str = name.join('');
-        console.log(str);
-        const fs = RNFetchBlob.fs;
+        const name = screenTitle.split(' ', 1);
+        const str = name.join('');
 
+        const fs = RNFetchBlob.fs;
         const dirs = RNFetchBlob.fs.dirs;
-        console.log(filename);
+
         const date = new Date();
+
         const NEW_FILE_PATH =
           `${dirs.DownloadDir}/` +
           date.getDate() +
@@ -205,7 +203,7 @@ export default function ViewScreen({
           ' ' +
           str +
           '.pdf';
-        console.log('NEW_FILE_PATH', NEW_FILE_PATH);
+
         const PATH_TO_ANOTHER_FILE = path;
 
         fs.createFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri');
@@ -213,6 +211,10 @@ export default function ViewScreen({
         Alert.alert('PDF generated', 'Go to' + NEW_FILE_PATH);
       } else {
         console.log('Permission denied');
+        Alert.alert(
+          'App requires storage permissions',
+          'Please make sure your you give storage permissions',
+        );
       }
     } catch (err) {
       console.warn(err);
@@ -265,9 +267,9 @@ export default function ViewScreen({
             );
           })}
 
-        {Object.values(vidhiThingsUseAll).map(things => {
+        {Object.values(vidhiThingsUseAll).map((things, index) => {
           return (
-            <DataTable.Row>
+            <DataTable.Row key={index}>
               <DataTable.Cell style={{justifyContent: 'center', flex: 1}}>
                 <Text style={{fontSize: 17, color: '#5C5C5C'}}>{things}</Text>
               </DataTable.Cell>

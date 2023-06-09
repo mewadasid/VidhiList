@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';

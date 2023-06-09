@@ -21,7 +21,7 @@ export default function ListShow({
   const listSlice = useSelector((state: RootState) =>
     Object.values(state.list),
   );
-  console.log(listSlice);
+
   return (
     <SafeAreaView>
       <View style={{marginTop: 5}}>
