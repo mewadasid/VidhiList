@@ -1,7 +1,7 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  ListBootom: {
+  listBootom: {
     marginLeft: 8,
     marginRight: 8,
     marginBottom: 10,
@@ -18,13 +18,13 @@ export const styles = StyleSheet.create({
     elevation: 10,
   },
 
-  ListDisplay: {
+  listDisplay: {
     fontSize: 20,
     color: '#000000',
     margin: 10,
     fontWeight: '800',
   },
-  ListStyle: {
+  listStyle: {
     flexDirection: 'row',
     padding: 10,
     alignItems: 'center',
@@ -36,11 +36,11 @@ export const styles = StyleSheet.create({
     color: '#8785A2',
     padding: 10,
   },
-  ListContainer: {
+  listContainer: {
     marginLeft: 16,
     marginRight: 16,
   },
-  ListAlignment: {
+  listAlignment: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
@@ -60,23 +60,20 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     borderBottomWidth: 2,
   },
-  AddListButton: {
-    // marginTop: 15,
-    // marginBottom: 15,
+  addListButton: {
     width: 200,
     borderRadius: 50,
-    // paddingVertical: 8,
     marginLeft: 'auto',
     marginRight: 'auto',
     alignItems: 'center',
   },
-  AddListText: {
+  addListText: {
     fontSize: 17,
     fontWeight: 'bold',
     letterSpacing: 2,
     color: '#000',
   },
-  DataTableWrap: {
+  dataTableWrap: {
     width: Dimensions.get('screen').width / 1.1,
     borderRadius: 10,
     marginLeft: 'auto',
@@ -89,9 +86,8 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 1.4,
   },
-  Loader: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+  imageStyle: {
+    width: 200,
+    height: 200,
   },
 });

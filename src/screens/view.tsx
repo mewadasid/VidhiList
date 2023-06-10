@@ -6,16 +6,16 @@ import {RootDrawerParamList, RootStackParamList} from '../models/navigation';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {ScrollView} from 'react-native';
-import {Button, DataTable} from 'react-native-paper';
+import {DataTable} from 'react-native-paper';
 import {styles} from '../css/style';
 import {vidhiThingsUseAll} from '../utils/cosntant';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-import ActivityLoader from '../components/activityLoader';
 
 // Import RNFetchBlob for the file download
 import RNFetchBlob from 'rn-fetch-blob';
+import AddButton from '../components/addButton';
 
 export default function ViewScreen({
   route,
@@ -26,6 +26,7 @@ export default function ViewScreen({
   const {listId, screenTitle} = route.params;
 
   const [pdfpath, setPDFPath] = useState('');
+  const [loader, setLoader] = useState(true);
   const myList = useSelector((state: RootState) =>
     Object.values(state.list).find(singleList => singleList.listId === listId),
   );
@@ -149,6 +150,7 @@ export default function ViewScreen({
 </html>`;
 
   const GeneratePDF = async () => {
+    setLoader(false);
     let options = {
       html: html,
       filename: 'test',
@@ -160,27 +162,33 @@ export default function ViewScreen({
     const file = await RNHTMLtoPDF.convert(options);
 
     if (!file || !file.filePath) {
-      return <ActivityLoader />;
+      console.log(file.filePath, 'ERROR');
     } else {
       setPDFPath(file.filePath);
       const sp = file.filePath.split('/');
-      saveFile(sp[9], file.filePath);
+      const resposne = saveFile(sp[9], file.filePath);
+
+      if (!resposne) {
+        setLoader(false);
+      }
     }
+  };
+
+  const generateDate = () => {
+    const dateObj = new Date();
+    const date = dateObj.getDate();
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+    const mili = dateObj.getMilliseconds();
+
+    let dateString = date + '-' + month + '-' + year + '-' + mili;
+    return dateString;
   };
 
   const saveFile = async (filename: string, path: string) => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        {
-          title: 'Storage Permission',
-          message:
-            'Vidhi List App needs access to your storage ' +
-            'so you can store PDF.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -190,115 +198,126 @@ export default function ViewScreen({
 
         const fs = RNFetchBlob.fs;
         const dirs = RNFetchBlob.fs.dirs;
-
-        const date = new Date();
-
+        const currDate = generateDate();
         const NEW_FILE_PATH =
-          `${dirs.DownloadDir}/` +
-          date.getDate() +
-          '-' +
-          date.getMonth() +
-          '-' +
-          date.getFullYear() +
-          ' ' +
-          str +
-          '.pdf';
+          `${dirs.DownloadDir}/` + currDate + ' ' + str + '.pdf';
 
         const PATH_TO_ANOTHER_FILE = path;
 
         fs.createFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri');
-
         Alert.alert('PDF generated', 'Go to' + NEW_FILE_PATH);
+        setLoader(true);
       } else {
         console.log('Permission denied');
         Alert.alert(
           'App requires storage permissions',
-          'Please make sure your you give storage permissions',
+          'Please make sure you give storage permissions',
+          [
+            {
+              text: 'OK',
+              onPress: () => setLoader(true),
+            },
+            {
+              text: 'Cancel',
+              onPress: () => setLoader(false),
+            },
+          ],
         );
       }
+      return true;
     } catch (err) {
       console.warn(err);
+      return false;
     }
   };
 
   return (
-    <ScrollView>
-      <DataTable style={styles.DataTableWrap}>
-        <DataTable.Header>
-          <DataTable.Title style={{justifyContent: 'center'}}>
-            <View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  color: 'rgba(0,0,0,0.8)',
-                }}>
-                વસ્તુઓ
-              </Text>
-            </View>
-          </DataTable.Title>
-          <DataTable.Title style={{justifyContent: 'center'}}>
-            <View>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  color: 'rgba(0,0,0,0.8)',
-                }}>
-                કેટલુ
-              </Text>
-            </View>
-          </DataTable.Title>
-        </DataTable.Header>
-        {myList &&
-          Object.keys(myList.vidhi_things).map((item, index) => {
+    <>
+      <ScrollView>
+        <DataTable style={styles.dataTableWrap}>
+          <DataTable.Header>
+            <DataTable.Title style={{justifyContent: 'center'}}>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    color: 'rgba(0,0,0,0.8)',
+                  }}>
+                  વસ્તુઓ
+                </Text>
+              </View>
+            </DataTable.Title>
+            <DataTable.Title style={{justifyContent: 'center'}}>
+              <View>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    color: 'rgba(0,0,0,0.8)',
+                  }}>
+                  કેટલુ
+                </Text>
+              </View>
+            </DataTable.Title>
+          </DataTable.Header>
+          {myList &&
+            Object.keys(myList.vidhi_things).map((item, index) => {
+              return (
+                <DataTable.Row key={index}>
+                  <DataTable.Cell style={{justifyContent: 'center', flex: 1}}>
+                    <Text style={{fontSize: 17, color: '#5C5C5C'}}>{item}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={{justifyContent: 'center', flex: 1}}>
+                    <Text style={{fontSize: 17, color: '#5C5C5C'}}>
+                      {myList.vidhi_things[item]}
+                    </Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })}
+
+          {Object.values(vidhiThingsUseAll).map((things, index) => {
             return (
               <DataTable.Row key={index}>
                 <DataTable.Cell style={{justifyContent: 'center', flex: 1}}>
-                  <Text style={{fontSize: 17, color: '#5C5C5C'}}>{item}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={{justifyContent: 'center', flex: 1}}>
-                  <Text style={{fontSize: 17, color: '#5C5C5C'}}>
-                    {myList.vidhi_things[item]}
-                  </Text>
+                  <Text style={{fontSize: 17, color: '#5C5C5C'}}>{things}</Text>
                 </DataTable.Cell>
               </DataTable.Row>
             );
           })}
-
-        {Object.values(vidhiThingsUseAll).map((things, index) => {
-          return (
-            <DataTable.Row key={index}>
-              <DataTable.Cell style={{justifyContent: 'center', flex: 1}}>
-                <Text style={{fontSize: 17, color: '#5C5C5C'}}>{things}</Text>
-              </DataTable.Cell>
-            </DataTable.Row>
-          );
-        })}
-      </DataTable>
-      <View>
-        <Button
-          buttonColor="#F6BA6F"
-          contentStyle={styles.AddListButton}
-          style={[
-            styles.AddListButton,
-            {
+        </DataTable>
+        <View>
+          <AddButton
+            press={GeneratePDF}
+            btnName="Generate PDF"
+            btnLoading={loader}
+          />
+          {/* <Button
+            loading={loader === false ? true : false}
+            buttonColor="#F6BA6F"
+            contentStyle={styles.AddListButton}
+            style={{
               marginBottom: 20,
               marginTop: 20,
               width: 200,
+
               marginLeft: 'auto',
               marginRight: 'auto',
-            },
-          ]}
-          mode="contained"
-          onPress={GeneratePDF}>
-          <Text
-            style={[styles.AddListText, {lineHeight: 24, textAlign: 'center'}]}>
-            Generate PDF
-          </Text>
-        </Button>
-      </View>
-    </ScrollView>
+            }}
+            mode="contained"
+            onPress={GeneratePDF}>
+            <Text
+              style={[
+                styles.AddListText,
+                {lineHeight: 24, textAlign: 'center'},
+              ]}>
+              Generate PDF
+            </Text>
+          </Button> */}
+        </View>
+      </ScrollView>
+    </>
   );
 }

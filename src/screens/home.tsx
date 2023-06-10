@@ -23,34 +23,6 @@ export default function HomeScreen({
           navigation={navigation}
           routeName="openList"
         />
-        {/* <FlatList
-          data={Lists}
-          renderItem={listName => {
-            return (
-              <View>
-                <View
-                  style={[
-                    styles.backColor,
-                    styles.elevations,
-                    styles.ListBootom,
-                    styles.ListStyle,
-                  ]}>
-                  <Text style={[styles.ListDisplay]}>{listName.item.name}</Text>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() =>
-                      navigation.push('openList', {
-                        itemId: listName.item.id,
-                        screenTitle: listName.item.name,
-                      })
-                    }>
-                    <Icon style={styles.iconButton} name="eye" size={25} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            );
-          }}
-        /> */}
       </View>
     </SafeAreaView>
   );

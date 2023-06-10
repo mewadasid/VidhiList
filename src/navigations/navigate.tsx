@@ -23,7 +23,7 @@ export default function NativeNavigate() {
         headerStyle: {backgroundColor: colors.primary},
       }}>
       <Stack.Screen
-        name="Navigate"
+        name="navigate"
         component={Navigate}
         options={{
           headerShown: false,
@@ -55,7 +55,7 @@ function Navigate() {
         drawerLabelStyle: {fontSize: 16, margin: 10},
       }}>
       <Drawer.Screen
-        name="Home"
+        name="home"
         component={HomeScreen}
         options={{title: 'Home'}}
       />

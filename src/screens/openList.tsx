@@ -6,7 +6,6 @@ import {FlatList, Text, TextInput, ToastAndroid, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Controller, useForm} from 'react-hook-form';
-import {Button} from 'react-native-paper';
 
 //Yup Validator
 import * as yup from 'yup';
@@ -25,6 +24,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //Redux State
 import {useDispatch} from 'react-redux';
 import {addList} from '../redux/ducks/homeSlice';
+import AddButton from '../components/addButton';
 
 export default function OpenListScreen({
   navigation,
@@ -51,6 +51,7 @@ export default function OpenListScreen({
 
   const validationSchemaList = yup.object().shape(validationObject());
   const handleAddPress = (data: any) => {
+    console.log(data);
     let dataObj: {[key: string]: any} = {};
     for (const key in data) {
       if (data[key] !== undefined) {
@@ -70,7 +71,7 @@ export default function OpenListScreen({
       date.getMinutes();
 
     dispatch(addList(dataObj));
-    navigation.navigate('Navigate');
+    navigation.navigate('navigate');
   };
 
   const {control, handleSubmit} = useForm<ItemData>({
@@ -88,7 +89,7 @@ export default function OpenListScreen({
     const wholedata = [...list];
 
     wholedata[0].vidhi_things = removedObj;
-
+    console.log(wholedata[0].vidhi_things);
     setList(wholedata);
   };
 
@@ -98,20 +99,17 @@ export default function OpenListScreen({
         <FlatList
           data={list}
           renderItem={({item, index}) => (
-            <View key={index} style={styles.ListContainer}>
+            <View key={index} style={styles.listContainer}>
               {Object.values(item.vidhi_things).map((vidhiItem, number) => (
                 <Controller
                   key={number}
                   control={control}
                   name={vidhiItem}
-                  render={({
-                    field: {onBlur, onChange, value},
-                    fieldState: {error},
-                  }) => (
+                  render={({field: {onBlur}, fieldState: {error}}) => (
                     <>
                       <View
                         style={[
-                          styles.ListAlignment,
+                          styles.listAlignment,
                           styles.input,
                           {borderBottomColor: error ? '#ff0000' : '#8785A2'},
                         ]}>
@@ -135,10 +133,8 @@ export default function OpenListScreen({
                               color: '#000',
                             }}
                             placeholderTextColor="rgba(0,0,0,0.3)"
-                            placeholder="Enter a value"
+                            placeholder={vidhiItem}
                             onBlur={onBlur}
-                            value={value}
-                            onChangeText={data => onChange(data)}
                           />
                         </View>
                         <View style={{width: '10%'}}>
@@ -167,31 +163,12 @@ export default function OpenListScreen({
             </View>
           )}
           ListFooterComponent={
-            <View>
-              <Button
-                buttonColor="#F6BA6F"
-                contentStyle={styles.AddListButton}
-                style={[
-                  styles.AddListButton,
-                  {
-                    marginBottom: 20,
-                    marginTop: 20,
-                    width: 200,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                  },
-                ]}
-                mode="contained"
-                onPress={handleSubmit(handleAddPress)}>
-                <Text
-                  style={[
-                    styles.AddListText,
-                    {lineHeight: 24, textAlign: 'center'},
-                  ]}>
-                  યાદી ઉમેરો
-                </Text>
-              </Button>
-            </View>
+            Object.values(list[0].vidhi_things).length <= 0 ? null : (
+              <AddButton
+                press={handleSubmit(handleAddPress)}
+                btnName="યાદી ઉમેરો"
+              />
+            )
           }
         />
       </View>

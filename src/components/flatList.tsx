@@ -38,36 +38,40 @@ export default function CustomFlatlist({
       renderItem={listName => {
         return (
           <>
+            {/* listName.item.version not becasuse by default verison object is stored so remove it */}
             {!listName.item.version && (
-              <View>
-                <View
-                  style={[
-                    styles.backColor,
-                    styles.elevations,
-                    styles.ListBootom,
-                    styles.ListStyle,
-                  ]}>
-                  <Text style={[styles.ListDisplay]}>{listName.item.name}</Text>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      if (routeName === 'openList') {
-                        navigation.push(routeName, {
-                          itemId: listName.item.id,
-                          screenTitle: listName.item.name,
-                        });
-                      }
-                      if (routeName === 'view') {
-                        navigation.push(routeName, {
-                          listId: listName.item.listId,
-                          screenTitle: listName.item.name,
-                        });
-                      }
-                    }}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  if (routeName === 'openList') {
+                    navigation.push(routeName, {
+                      itemId: listName.item.id,
+                      screenTitle: listName.item.name,
+                    });
+                  }
+                  if (routeName === 'view') {
+                    navigation.push(routeName, {
+                      listId: listName.item.listId,
+                      screenTitle: listName.item.name,
+                    });
+                  }
+                }}>
+                <View>
+                  <View
+                    style={[
+                      styles.backColor,
+                      styles.elevations,
+                      styles.listBootom,
+                      styles.listStyle,
+                    ]}>
+                    <Text style={[styles.listDisplay]}>
+                      {listName.item.name}
+                    </Text>
+
                     <Icon style={styles.iconButton} name="eye" size={25} />
-                  </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           </>
         );
