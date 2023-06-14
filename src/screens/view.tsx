@@ -180,11 +180,23 @@ export default function ViewScreen({
     const month = dateObj.getMonth() + 1;
     const year = dateObj.getFullYear();
     const mili = dateObj.getMilliseconds();
-
     let dateString = date + '-' + month + '-' + year + '-' + mili;
     return dateString;
   };
 
+  const fileCreate = (Vidhi_List: string, path: string) => {
+    const fs = RNFetchBlob.fs;
+    const name = screenTitle.split(' ', 1);
+    const str = name.join('');
+    const currDate = generateDate();
+
+    const NEW_FILE_PATH = Vidhi_List + '/' + currDate + ' ' + str + '.pdf';
+
+    const PATH_TO_ANOTHER_FILE = path;
+    fs.createFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri');
+    Alert.alert('PDF generated', 'Go to' + NEW_FILE_PATH);
+    setLoader(true);
+  };
   const saveFile = async (filename: string, path: string) => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -193,20 +205,24 @@ export default function ViewScreen({
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('Permission granted');
-        const name = screenTitle.split(' ', 1);
-        const str = name.join('');
 
-        const fs = RNFetchBlob.fs;
         const dirs = RNFetchBlob.fs.dirs;
-        const currDate = generateDate();
-        const NEW_FILE_PATH =
-          `${dirs.DownloadDir}/` + currDate + ' ' + str + '.pdf';
 
-        const PATH_TO_ANOTHER_FILE = path;
-
-        fs.createFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri');
-        Alert.alert('PDF generated', 'Go to' + NEW_FILE_PATH);
-        setLoader(true);
+        const currentDir = dirs.DownloadDir;
+        const folder = 'Vidhi_List';
+        const Vidhi_list = currentDir + '/' + folder;
+        console.log(Vidhi_list);
+        const directory = await RNFetchBlob.fs.isDir(Vidhi_list);
+        if (!directory) {
+          RNFetchBlob.fs
+            .mkdir(Vidhi_list)
+            .then(() => {
+              fileCreate(Vidhi_list, path);
+            })
+            .catch(err => console.log(err));
+        } else {
+          fileCreate(Vidhi_list, path);
+        }
       } else {
         console.log('Permission denied');
         Alert.alert(

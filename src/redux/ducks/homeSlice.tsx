@@ -8,6 +8,7 @@ const listCreateSlice = createSlice({
   initialState,
   reducers: {
     addList: (state, action) => {
+      console.log(state);
       const stateObj = Object.values(state);
       stateObj.push(action.payload);
       return stateObj;

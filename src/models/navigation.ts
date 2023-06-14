@@ -5,6 +5,9 @@ export type RootDrawerParamList = {
 
 export type RootStackParamList = {
   navigate: undefined;
-  openList: {itemId: string | number; screenTitle: string};
+  openList: {
+    itemId: string | number;
+    screenTitle: string;
+  };
   view: {listId: string | number; screenTitle: string};
 };

@@ -6,3 +6,7 @@ export type ItemData = {
   name: string;
   vidhi_things: {[key: string]: any};
 };
+
+export type values = {
+  [key: string]: any;
+};

@@ -22,6 +22,7 @@ export default function ListShow({
     Object.values(state.list),
   );
 
+  console.log(listSlice);
   return (
     <SafeAreaView>
       <View style={{marginTop: 5}}>
