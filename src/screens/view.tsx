@@ -24,7 +24,6 @@ export default function ViewScreen({
   DrawerScreenProps<RootDrawerParamList>
 >) {
   const {listId, screenTitle} = route.params;
-
   const [pdfpath, setPDFPath] = useState('');
   const [loader, setLoader] = useState(true);
   const myList = useSelector((state: RootState) =>
@@ -211,7 +210,7 @@ export default function ViewScreen({
         const currentDir = dirs.DownloadDir;
         const folder = 'Vidhi_List';
         const Vidhi_list = currentDir + '/' + folder;
-        console.log(Vidhi_list);
+
         const directory = await RNFetchBlob.fs.isDir(Vidhi_list);
         if (!directory) {
           RNFetchBlob.fs

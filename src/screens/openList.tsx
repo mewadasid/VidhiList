@@ -42,7 +42,12 @@ export default function OpenListScreen({
       headerRight: () => {
         return (
           <TouchableOpacity activeOpacity={0.8}>
-            <Icon name="undo" size={25} onPress={undoVidhi} />
+            <Icon
+              name="undo"
+              style={{color: '#8785A2'}}
+              size={25}
+              onPress={undoVidhi}
+            />
           </TouchableOpacity>
         );
       },
@@ -52,7 +57,6 @@ export default function OpenListScreen({
 
   let vidhiObj: values = {};
   useMemo(() => {
-    console.log('MEMO');
     const array = Object.values(filteredItem[0].vidhi_things);
     array.forEach((data: any) => {
       vidhiObj[data] = '';
@@ -61,8 +65,6 @@ export default function OpenListScreen({
 
   const [vidhiThings, setVidhiThings] = useState(vidhiObj);
   const [undoValue, setUndoValue] = useState<values>({});
-
-  // useMemo(() => {}, [undoValue]);
 
   function validationObject() {
     let validObj: {
@@ -81,7 +83,7 @@ export default function OpenListScreen({
     resolver: yupResolver(validationSchemaList),
   });
 
-  const {replace, append} = useFieldArray({
+  const {replace} = useFieldArray({
     control,
     name: 'test',
   });
@@ -116,20 +118,19 @@ export default function OpenListScreen({
   undoRef.current = {undoValue, vidhiThings};
 
   const undoVidhi = () => {
-    if (
-      undoRef.current?.undoValue &&
-      Object.keys(undoRef.current.undoValue).length > 0
-    ) {
+    ToastAndroid.show('Item Recover', ToastAndroid.SHORT);
+
+    if (Object.keys(undoRef.current.undoValue).length > 0) {
       const Obj = undoRef.current.undoValue;
-      const VT = undoRef.current.vidhiThings;
+      const refVidhiThing = undoRef.current.vidhiThings;
 
       const entries = Object.entries(Obj);
 
       const singleItem = entries[entries.length - 1];
-      delete undoRef.current[singleItem[0]];
+      delete undoRef.current.undoValue[singleItem[0]];
 
-      setUndoValue(undoRef.current);
-      setVidhiThings({...VT, [singleItem[0]]: singleItem[1]});
+      setUndoValue(undoRef.current.undoValue);
+      setVidhiThings({...refVidhiThing, [singleItem[0]]: singleItem[1]});
     }
   };
 
@@ -165,7 +166,6 @@ export default function OpenListScreen({
                       fieldState: {error},
                     }) => (
                       <>
-                        {console.log(vidhiItem + vidhiIndex)}
                         <View
                           style={[
                             styles.listAlignment,
