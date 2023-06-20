@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import {Alert, PermissionsAndroid, Text, View} from 'react-native';
+import {Alert, PermissionsAndroid, Platform, Text, View} from 'react-native';
 import {RootDrawerParamList, RootStackParamList} from '../models/navigation';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
@@ -197,16 +197,20 @@ export default function ViewScreen({
   };
   const saveFile = async (filename: string, path: string) => {
     try {
+      const dirs = RNFetchBlob.fs.dirs;
+      const currentDir =
+        Platform.OS === 'ios' ? dirs.DocumentDir : dirs.DownloadDir;
+
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       );
 
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      if (
+        granted === PermissionsAndroid.RESULTS.GRANTED ||
+        Platform.OS === 'ios'
+      ) {
         console.log('Permission granted');
 
-        const dirs = RNFetchBlob.fs.dirs;
-
-        const currentDir = dirs.DownloadDir;
         const folder = 'Vidhi_List';
         const Vidhi_list = currentDir + '/' + folder;
 

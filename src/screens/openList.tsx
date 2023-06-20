@@ -5,7 +5,7 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {FlatList, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
 import {Controller, useForm, useFieldArray} from 'react-hook-form';
 
 //Yup Validator
@@ -27,7 +27,7 @@ import {useDispatch} from 'react-redux';
 import {addList} from '../redux/ducks/homeSlice';
 import AddButton from '../components/addButton';
 import {TouchableOpacity} from 'react-native';
-import { Snackbar } from 'react-native-paper';
+import {Snackbar} from 'react-native-paper';
 
 export default function OpenListScreen({
   navigation,
@@ -68,8 +68,8 @@ export default function OpenListScreen({
 
   const [vidhiThings, setVidhiThings] = useState(vidhiObj);
   const [undoValue, setUndoValue] = useState<values>({});
-  const [visible , setVisible] = useState(false);
-  const [toastMessage ,setToastMessage] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   function validationObject() {
     let validObj: {
@@ -123,8 +123,6 @@ export default function OpenListScreen({
   undoRef.current = {undoValue, vidhiThings};
 
   const undoVidhi = () => {
-   
-
     if (Object.keys(undoRef.current.undoValue).length > 0) {
       setToastMessage('Item Recover');
       setVisible(true);
@@ -160,104 +158,124 @@ export default function OpenListScreen({
   };
   return (
     <>
-     
-        <View>
-          <FlatList
-            data={[vidhiThings]}
-            renderItem={({item, index}) => (
-              <View key={index} style={styles.listContainer}>
-                {Object.keys(item).map((vidhiItem, vidhiIndex) => (
-                  <Controller
-                    key={vidhiIndex}
-                    control={control}
-                    name={vidhiItem}
-                    render={({
-                      field: {onBlur, onChange},
-                      fieldState: {error},
-                    }) => (
-                      <>
+      <View>
+        <FlatList
+          data={[vidhiThings]}
+          renderItem={({item, index}) => (
+            <View key={index} style={styles.listContainer}>
+              {Object.keys(item).map((vidhiItem, vidhiIndex) => (
+                <Controller
+                  key={vidhiIndex}
+                  control={control}
+                  name={vidhiItem}
+                  render={({
+                    field: {onBlur, onChange},
+                    fieldState: {error},
+                  }) => (
+                    <>
+                      <View
+                        style={[
+                          styles.listAlignment,
+                          styles.input,
+                          {borderBottomColor: error ? '#ff0000' : '#8785A2'},
+                        ]}>
                         <View
-                          style={[
-                            styles.listAlignment,
-                            styles.input,
-                            {borderBottomColor: error ? '#ff0000' : '#8785A2'},
-                          ]}>
-                          <View
+                          style={{
+                            width: '30%',
+                          }}>
+                          <Text
                             style={{
-                              width: '30%',
+                              fontSize: 20,
+                              paddingLeft: 10,
+                              color: '#000',
                             }}>
-                            <Text
-                              style={{
-                                fontSize: 20,
-                                paddingLeft: 10,
-                                color: '#000',
-                              }}>
-                              {vidhiItem} :
-                            </Text>
-                          </View>
-                          <View style={{width: '60%'}}>
-                            <TextInput
-                              style={{
-                                fontSize: 20,
-                                color: '#000',
-                              }}
-                              placeholderTextColor="rgba(0,0,0,0.3)"
-                              value={
-                                vidhiThings[vidhiItem] === ''
-                                  ? null
-                                  : vidhiThings[vidhiItem]
-                              }
-                              placeholder={vidhiItem}
-                              onBlur={onBlur}
-                              onChangeText={data => {
-                                onChange(data);
-                                onValueChange(vidhiItem, data);
-                              }}
-                            />
-                          </View>
-                          <View style={{width: '10%'}}>
-                            <Icon
-                              name="trash"
-                              style={{color: 'rgb(113, 201, 206)'}}
-                              size={25}
-                              onPress={() =>
-                                removeItem(vidhiItem, vidhiThings[vidhiItem])
-                              }
-                            />
-                          </View>
+                            {vidhiItem} :
+                          </Text>
                         </View>
-                        {error && (
-                          <View
+                        <View style={{width: '60%'}}>
+                          <TextInput
                             style={{
-                              marginBottom: 5,
-                            }}>
-                            <Text style={{fontSize: 18, color: 'rgb(255,0,0)'}}>
-                              {error?.message}
-                            </Text>
-                          </View>
-                        )}
-                      </>
-                    )}
-                  />
-                ))}
-              </View>
-            )}
-            ListFooterComponent={
-              Object.keys(vidhiThings).length <= 0 ? null : (
-                <AddButton
-                  press={handleSubmit(handleAddPress)}
-                  btnName="યાદી ઉમેરો"
+                              fontSize: 20,
+                              color: '#000',
+                            }}
+                            placeholderTextColor="rgba(0,0,0,0.3)"
+                            value={
+                              vidhiThings[vidhiItem] === ''
+                                ? null
+                                : vidhiThings[vidhiItem]
+                            }
+                            placeholder={vidhiItem}
+                            onBlur={onBlur}
+                            onChangeText={data => {
+                              onChange(data);
+                              onValueChange(vidhiItem, data);
+                            }}
+                          />
+                        </View>
+                        <View style={{width: '10%'}}>
+                          <Icon
+                            name="trash"
+                            style={{color: 'rgb(113, 201, 206)'}}
+                            size={25}
+                            onPress={() =>
+                              removeItem(vidhiItem, vidhiThings[vidhiItem])
+                            }
+                          />
+                        </View>
+                      </View>
+                      {error && (
+                        <View
+                          style={{
+                            marginBottom: 5,
+                          }}>
+                          <Text style={{fontSize: 18, color: 'rgb(255,0,0)'}}>
+                            {error?.message}
+                          </Text>
+                        </View>
+                      )}
+                    </>
+                  )}
                 />
-              )
-            }
-          />
-        </View>
-          <Snackbar  style={{ width:200,alignSelf:'center',borderWidth:1,borderColor:toastMessage==='Item Removed' ? '#ff0000' : '#00ff00' ,backgroundColor:'#ffffff'}} duration={2000}  visible={visible} onDismiss={onDissmissBar}>
-            <View style={{justifyContent:'center',gap:8,flexDirection:'row',alignItems:'center'}}>
-              <Icon size={20} name={toastMessage==='Item Removed' ? 'trash' : 'undo'}/>
-            <Text style={{textAlign:'center',color:'#000000',fontSize:15}}>{toastMessage}</Text>
+              ))}
             </View>
-          </Snackbar>
+          )}
+          ListFooterComponent={
+            Object.keys(vidhiThings).length <= 0 ? null : (
+              <AddButton
+                press={handleSubmit(handleAddPress)}
+                btnName="યાદી ઉમેરો"
+              />
+            )
+          }
+        />
+      </View>
+      <Snackbar
+        style={{
+          width: 200,
+          alignSelf: 'center',
+          borderWidth: 1,
+          borderColor: toastMessage === 'Item Removed' ? '#ff0000' : '#00ff00',
+          backgroundColor: '#ffffff',
+        }}
+        duration={2000}
+        visible={visible}
+        onDismiss={onDissmissBar}>
+        <View
+          style={{
+            justifyContent: 'center',
+            gap: 8,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Icon
+            size={20}
+            name={toastMessage === 'Item Removed' ? 'trash' : 'undo'}
+          />
+          <Text style={{textAlign: 'center', color: '#000000', fontSize: 15}}>
+            {toastMessage}
+          </Text>
+        </View>
+      </Snackbar>
     </>
   );
 }
