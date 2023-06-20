@@ -308,28 +308,6 @@ export default function ViewScreen({
             btnName="Generate PDF"
             btnLoading={loader}
           />
-          {/* <Button
-            loading={loader === false ? true : false}
-            buttonColor="#F6BA6F"
-            contentStyle={styles.AddListButton}
-            style={{
-              marginBottom: 20,
-              marginTop: 20,
-              width: 200,
-
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            mode="contained"
-            onPress={GeneratePDF}>
-            <Text
-              style={[
-                styles.AddListText,
-                {lineHeight: 24, textAlign: 'center'},
-              ]}>
-              Generate PDF
-            </Text>
-          </Button> */}
         </View>
       </ScrollView>
     </>
