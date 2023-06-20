@@ -23,7 +23,7 @@ export default function ListShow({
   );
 
   return (
-    <SafeAreaView>
+    
       <View style={{marginTop: 5}}>
         {listSlice.length > 1 ? (
           <CustomFlatlist
@@ -45,6 +45,6 @@ export default function ListShow({
           </View>
         )}
       </View>
-    </SafeAreaView>
+    
   );
 }

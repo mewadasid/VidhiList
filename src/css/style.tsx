@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
   iconButton: {
     borderRadius: 5,
     backgroundColor: '#F6BA6F',
-    color: '#8785A2',
+    
     padding: 10,
   },
   listContainer: {

@@ -24,7 +24,7 @@ export default function ViewScreen({
   DrawerScreenProps<RootDrawerParamList>
 >) {
   const {listId, screenTitle} = route.params;
-  const [pdfpath, setPDFPath] = useState('');
+  // const [pdfpath, setPDFPath] = useState('');
   const [loader, setLoader] = useState(true);
   const myList = useSelector((state: RootState) =>
     Object.values(state.list).find(singleList => singleList.listId === listId),
@@ -163,7 +163,6 @@ export default function ViewScreen({
     if (!file || !file.filePath) {
       console.log(file.filePath, 'ERROR');
     } else {
-      setPDFPath(file.filePath);
       const sp = file.filePath.split('/');
       const resposne = saveFile(sp[9], file.filePath);
 

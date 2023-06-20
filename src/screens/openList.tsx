@@ -3,7 +3,7 @@
 
 //React Native
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {FlatList, Text, TextInput, ToastAndroid, View} from 'react-native';
+import {FlatList, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Controller, useForm, useFieldArray} from 'react-hook-form';
@@ -27,6 +27,7 @@ import {useDispatch} from 'react-redux';
 import {addList} from '../redux/ducks/homeSlice';
 import AddButton from '../components/addButton';
 import {TouchableOpacity} from 'react-native';
+import { Snackbar } from 'react-native-paper';
 
 export default function OpenListScreen({
   navigation,
@@ -61,10 +62,14 @@ export default function OpenListScreen({
     array.forEach((data: any) => {
       vidhiObj[data] = '';
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [vidhiThings, setVidhiThings] = useState(vidhiObj);
   const [undoValue, setUndoValue] = useState<values>({});
+  const [visible , setVisible] = useState(false);
+  const [toastMessage ,setToastMessage] = useState('');
 
   function validationObject() {
     let validObj: {
@@ -118,9 +123,11 @@ export default function OpenListScreen({
   undoRef.current = {undoValue, vidhiThings};
 
   const undoVidhi = () => {
-    ToastAndroid.show('Item Recover', ToastAndroid.SHORT);
+   
 
     if (Object.keys(undoRef.current.undoValue).length > 0) {
+      setToastMessage('Item Recover');
+      setVisible(true);
       const Obj = undoRef.current.undoValue;
       const refVidhiThing = undoRef.current.vidhiThings;
 
@@ -135,7 +142,8 @@ export default function OpenListScreen({
   };
 
   const removeItem = (itemName: string, val: number) => {
-    ToastAndroid.show('Item removed', ToastAndroid.SHORT);
+    setToastMessage('Item Removed');
+    setVisible(true);
     replace((control._formValues[itemName] = undefined));
     const cloneObj = {...vidhiThings};
 
@@ -144,13 +152,15 @@ export default function OpenListScreen({
     setVidhiThings(cloneObj);
   };
 
+  const onDissmissBar = () => setVisible(false);
+
   const onValueChange = (vidhiItem: string, val: string) => {
     // setValue(vidhiItem, val);
     setVidhiThings({...vidhiThings, [vidhiItem]: val});
   };
   return (
     <>
-      <SafeAreaView>
+     
         <View>
           <FlatList
             data={[vidhiThings]}
@@ -242,7 +252,12 @@ export default function OpenListScreen({
             }
           />
         </View>
-      </SafeAreaView>
+          <Snackbar  style={{ width:200,alignSelf:'center',borderWidth:1,borderColor:toastMessage==='Item Removed' ? '#ff0000' : '#00ff00' ,backgroundColor:'#ffffff'}} duration={2000}  visible={visible} onDismiss={onDissmissBar}>
+            <View style={{justifyContent:'center',gap:8,flexDirection:'row',alignItems:'center'}}>
+              <Icon size={20} name={toastMessage==='Item Removed' ? 'trash' : 'undo'}/>
+            <Text style={{textAlign:'center',color:'#000000',fontSize:15}}>{toastMessage}</Text>
+            </View>
+          </Snackbar>
     </>
   );
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useRef} from 'react';
+import React from 'react';
 import {Alert, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from '../css/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,7 +11,7 @@ import {ItemData} from '../models/itemList';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {useDispatch} from 'react-redux';
 import {delelteList} from '../redux/ducks/homeSlice';
-import {Animated, Easing} from 'react-native';
+import {Animated} from 'react-native';
 
 type DataTypeProp = {
   data: ItemData[];
@@ -56,7 +56,7 @@ export default function CustomFlatlist({
   };
   const renderRightActions = (id: string) => {
     return (
-      <Animated.View
+      <View
         style={[
           styles.elevations,
           styles.listBootom,
@@ -78,7 +78,7 @@ export default function CustomFlatlist({
           size={25}
           onPress={() => removeList(id)}
         />
-      </Animated.View>
+      </View>
     );
   };
 
@@ -137,11 +137,9 @@ export default function CustomFlatlist({
                             {listName.item.name}
                           </Text>
 
-                          <Icon
-                            style={styles.iconButton}
-                            name="eye"
-                            size={25}
-                          />
+                          <View style={styles.iconButton}>
+                            <Icon color='#8785A2' name="eye" size={25} />
+                          </View>
                         </Animated.View>
                       </View>
                     </Swipeable>
@@ -159,7 +157,9 @@ export default function CustomFlatlist({
                         {listName.item.name}
                       </Text>
 
-                      <Icon style={styles.iconButton} name="eye" size={25} />
+                      <View style={styles.iconButton}>
+                      <Icon color='#8785A2'  name="eye" size={25} />
+                      </View>
                     </View>
                   </View>
                 )}

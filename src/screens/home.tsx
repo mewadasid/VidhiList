@@ -41,7 +41,7 @@ export default function HomeScreen({
     }, []),
   );
   return (
-    <SafeAreaView>
+ 
       <View style={{marginTop: 5}}>
         <CustomFlatlist
           data={Lists}
@@ -49,6 +49,6 @@ export default function HomeScreen({
           routeName="openList"
         />
       </View>
-    </SafeAreaView>
+   
   );
 }
