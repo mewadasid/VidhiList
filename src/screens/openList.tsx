@@ -254,6 +254,7 @@ export default function OpenListScreen({
           width: 200,
           alignSelf: 'center',
           borderWidth: 1,
+          borderRadius: 30,
           borderColor: toastMessage === 'Item Removed' ? '#ff0000' : '#00ff00',
           backgroundColor: '#ffffff',
         }}
