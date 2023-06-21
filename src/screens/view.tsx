@@ -16,6 +16,7 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 // Import RNFetchBlob for the file download
 import RNFetchBlob from 'rn-fetch-blob';
 import AddButton from '../components/addButton';
+import {log} from 'react-native-reanimated';
 
 export default function ViewScreen({
   route,
@@ -191,9 +192,17 @@ export default function ViewScreen({
     const NEW_FILE_PATH = Vidhi_List + '/' + currDate + ' ' + str + '.pdf';
 
     const PATH_TO_ANOTHER_FILE = path;
-    fs.createFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri');
-    Alert.alert('PDF generated', 'Go to' + NEW_FILE_PATH);
-    setLoader(true);
+
+    if (Platform.OS === 'ios') {
+      fs.writeFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri').then(() => {
+        RNFetchBlob.ios.openDocument(NEW_FILE_PATH);
+      });
+      setLoader(true);
+    } else {
+      fs.createFile(NEW_FILE_PATH, PATH_TO_ANOTHER_FILE, 'uri');
+      Alert.alert('PDF generated', 'Go to' + NEW_FILE_PATH);
+      setLoader(true);
+    }
   };
   const saveFile = async (filename: string, path: string) => {
     try {
@@ -201,29 +210,41 @@ export default function ViewScreen({
       const currentDir =
         Platform.OS === 'ios' ? dirs.DocumentDir : dirs.DownloadDir;
 
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      );
+      const granted =
+        Platform.OS === 'android' &&
+        (await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        ));
 
       if (
         granted === PermissionsAndroid.RESULTS.GRANTED ||
         Platform.OS === 'ios'
       ) {
         console.log('Permission granted');
-
         const folder = 'Vidhi_List';
-        const Vidhi_list = currentDir + '/' + folder;
 
-        const directory = await RNFetchBlob.fs.isDir(Vidhi_list);
-        if (!directory) {
-          RNFetchBlob.fs
-            .mkdir(Vidhi_list)
-            .then(() => {
-              fileCreate(Vidhi_list, path);
-            })
-            .catch(err => console.log(err));
+        if (Platform.OS === 'ios') {
+          const Vidhi_list = currentDir + '/' + folder;
+          const file_exist = RNFetchBlob.fs.exists(path);
+          if (await file_exist) {
+            fileCreate(Vidhi_list, path);
+          }
         } else {
-          fileCreate(Vidhi_list, path);
+          console.log(currentDir, 'Directory');
+
+          const Vidhi_list = currentDir + '/' + folder;
+
+          const directory = await RNFetchBlob.fs.isDir(Vidhi_list);
+          if (!directory) {
+            RNFetchBlob.fs
+              .mkdir(Vidhi_list)
+              .then(() => {
+                fileCreate(Vidhi_list, path);
+              })
+              .catch(err => console.log(err));
+          } else {
+            fileCreate(Vidhi_list, path);
+          }
         }
       } else {
         console.log('Permission denied');

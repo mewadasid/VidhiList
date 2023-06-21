@@ -74,6 +74,7 @@ export const Lists: ItemData[] = [
       ganeshnimatali: 'ગણેશની માટલી',
     },
   },
+  
 ];
 
 export const vidhiThingsUseAll = {

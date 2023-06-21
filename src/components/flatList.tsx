@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Alert, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {styles} from '../css/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {CompositeNavigationProp} from '@react-navigation/native';
@@ -12,6 +19,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {useDispatch} from 'react-redux';
 import {delelteList} from '../redux/ducks/homeSlice';
 import {Animated} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 type DataTypeProp = {
   data: ItemData[];
@@ -91,83 +99,84 @@ export default function CustomFlatlist({
   };
 
   return (
-    <FlatList
-      data={data}
-      inverted={true}
-      keyExtractor={(item, index) => item.name + index}
-      renderItem={listName => {
-        return (
-          <>
-            {/* listName.item.version not becasuse by default verison object is stored so remove it */}
-            {!listName.item.version && (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  if (routeName === 'openList') {
-                    navigation.push(routeName, {
-                      itemId: listName.item.id,
-                      screenTitle: listName.item.name,
-                    });
-                  }
-                  if (routeName === 'view') {
-                    navigation.push(routeName, {
-                      listId: listName.item.listId,
-                      screenTitle: listName.item.name,
-                    });
-                  }
-                }}>
-                {routeName === 'view' ? (
-                  <>
-                    <Swipeable
-                      renderRightActions={() =>
-                        renderRightActions(listName.item.listId)
-                      }
-                      overshootFriction={15}
-                      onSwipeableOpen={() => closeRow(listName.index)}
-                      ref={ref => (row[listName.index] = ref)}>
-                      <View>
-                        <Animated.View
-                          style={[
-                            styles.backColor,
-                            styles.elevations,
-                            styles.listBootom,
-                            styles.listStyle,
-                          ]}>
-                          <Text style={[styles.listDisplay]}>
-                            {listName.item.name}
-                          </Text>
+    <View style={{height: Dimensions.get('window').height}}>
+      <FlatList
+        data={data}
+        keyExtractor={(item, index) => item.name + index}
+        renderItem={listName => {
+          return (
+            <>
+              {/* listName.item.version not becasuse by default verison object is stored so remove it */}
+              {!listName.item.version && (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    if (routeName === 'openList') {
+                      navigation.push(routeName, {
+                        itemId: listName.item.id,
+                        screenTitle: listName.item.name,
+                      });
+                    }
+                    if (routeName === 'view') {
+                      navigation.push(routeName, {
+                        listId: listName.item.listId,
+                        screenTitle: listName.item.name,
+                      });
+                    }
+                  }}>
+                  {routeName === 'view' ? (
+                    <>
+                      <Swipeable
+                        renderRightActions={() =>
+                          renderRightActions(listName.item.listId)
+                        }
+                        overshootFriction={15}
+                        onSwipeableOpen={() => closeRow(listName.index)}
+                        ref={ref => (row[listName.index] = ref)}>
+                        <View>
+                          <Animated.View
+                            style={[
+                              styles.backColor,
+                              styles.elevations,
+                              styles.listBootom,
+                              styles.listStyle,
+                            ]}>
+                            <Text style={[styles.listDisplay]}>
+                              {listName.item.name}
+                            </Text>
 
-                          <View style={styles.iconButton}>
-                            <Icon color='#8785A2' name="eye" size={25} />
-                          </View>
-                        </Animated.View>
-                      </View>
-                    </Swipeable>
-                  </>
-                ) : (
-                  <View>
-                    <View
-                      style={[
-                        styles.backColor,
-                        styles.elevations,
-                        styles.listBootom,
-                        styles.listStyle,
-                      ]}>
-                      <Text style={[styles.listDisplay]}>
-                        {listName.item.name}
-                      </Text>
+                            <View style={styles.iconButton}>
+                              <Icon color="#8785A2" name="eye" size={25} />
+                            </View>
+                          </Animated.View>
+                        </View>
+                      </Swipeable>
+                    </>
+                  ) : (
+                    <View>
+                      <View
+                        style={[
+                          styles.backColor,
+                          styles.elevations,
+                          styles.listBootom,
+                          styles.listStyle,
+                        ]}>
+                        <Text style={[styles.listDisplay]}>
+                          {listName.item.name}
+                        </Text>
 
-                      <View style={styles.iconButton}>
-                      <Icon color='#8785A2'  name="eye" size={25} />
+                        <View style={styles.iconButton}>
+                          <Icon color="#8785A2" name="eye" size={25} />
+                        </View>
                       </View>
                     </View>
-                  </View>
-                )}
-              </TouchableOpacity>
-            )}
-          </>
-        );
-      }}
-    />
+                  )}
+                </TouchableOpacity>
+              )}
+            </>
+          );
+        }}
+      />
+    </View>
   );
 }

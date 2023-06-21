@@ -21,6 +21,7 @@ export default function AddButton({press, btnName, btnLoading}: addButton) {
           styles.addListButton,
           {
             marginBottom: 20,
+
             marginTop: 20,
             width: 200,
             marginLeft: 'auto',
