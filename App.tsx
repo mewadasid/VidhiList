@@ -17,6 +17,7 @@ import {Provider} from 'react-redux';
 import {persistor, store} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import ActivityLoader from './src/components/activityLoader';
+import {Platform, StatusBar} from 'react-native';
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
       <PersistGate loading={<ActivityLoader />} persistor={persistor}>
         <PaperProvider>
           <NavigationContainer>
+            {Platform.OS === 'ios' && (
+              <StatusBar animated={true} barStyle={'dark-content'} />
+            )}
+
             <NativeNavigate />
           </NavigationContainer>
         </PaperProvider>

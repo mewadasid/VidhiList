@@ -4,7 +4,6 @@ import {DrawerScreenProps} from '@react-navigation/drawer';
 import {CompositeScreenProps, useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootDrawerParamList, RootStackParamList} from '../models/navigation';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Lists} from '../utils/cosntant';
 import {Alert, BackHandler, View} from 'react-native';
 import CustomFlatlist from '../components/flatList';
@@ -41,14 +40,12 @@ export default function HomeScreen({
     }, []),
   );
   return (
- 
-      <View style={{marginTop: 5}}>
-        <CustomFlatlist
-          data={Lists}
-          navigation={navigation}
-          routeName="openList"
-        />
-      </View>
-   
+    <View style={{marginTop: 5}}>
+      <CustomFlatlist
+        data={Lists}
+        navigation={navigation}
+        routeName="openList"
+      />
+    </View>
   );
 }
